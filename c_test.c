@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "digits.h"
 
 void updateArray(char displayValues[6][4][21], char digitValues[4][21], char colPosition) {
@@ -50,16 +51,24 @@ int main(void) {
         }
     };
 
-    updateArray(lcdArray, digit3, 0);
+    int inputNumber = 850;
+    char numLength = log10(inputNumber) + 1;
+    char workingDigit;
 
-    // char val1 = lcdArray[1][0][4];
-    // char val2 = lcdArray[2][0][6];
-    // char expectedVal1 = digit3[0][4];
-    // char expectedVal2 = digit3[1][6];
-    // printf("Value 1: 0x%x \n", val1 & 0xff);
-    // printf("Value 2: 0x%x \n", val2 & 0xff);
-    // printf("Expected value 1: 0x%x \n", expectedVal1 & 0xff); 
-    // printf("Expected value 2: 0x%x \n", expectedVal2 & 0xff);
+    for (char digitPosition = 0; digitPosition < numLength; digitPosition++) {
+        workingDigit = inputNumber % 10;
+        updateArray(lcdArray, digitArray[workingDigit], digitPosition);
+        inputNumber = inputNumber / 10;
+    };
+
+    char val1 = lcdArray[1][0][4];
+    char val2 = lcdArray[3][1][7];
+    char expectedVal1 = digitArray[8][0][4];
+    char expectedVal2 = digitArray[5][2][7];
+    printf("Value 1: 0x%x \n", val1 & 0xff);
+    printf("Value 2: 0x%x \n", val2 & 0xff);
+    printf("Expected value 1: 0x%x \n", expectedVal1 & 0xff); 
+    printf("Expected value 2: 0x%x \n", expectedVal2 & 0xff);
 
     return 0;
 };
